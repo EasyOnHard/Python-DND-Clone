@@ -1,0 +1,86 @@
+{
+  "classes": [
+    {
+      "name": "Barbarian",
+      "starting_inventory": [
+        "Axe"
+      ]
+    },
+    {
+      "name": "Sorcerer",
+      "starting_inventory": ""
+    },
+    {
+      "name": "Ranger",
+      "starting_inventory": [
+        "Longbow"
+      ]
+    },
+    {
+      "name": "Rouge",
+      "starting_inventory": [
+        "Dagger"
+      ]
+    },
+    {
+      "name": "Wizard",
+      "starting_inventory": [
+        "Staff"
+      ]
+    }
+  ],
+  "races": [
+    {
+      "name": "Dragonborn",
+      "stat": [
+        {
+          "Str": "2",
+          "Dex": "0",
+          "Con": "0",
+          "Int": "0",
+          "Wis": "0",
+          "Cha": "1"
+        }
+      ]
+    },
+    {
+      "name": "Dwarf",
+      "stat": [
+        {
+          "Str": "0",
+          "Dex": "0",
+          "Con": "2",
+          "Int": "0",
+          "Wis": "0",
+          "Cha": "0"
+        }
+      ]
+    },
+    {
+      "name": "Elf",
+      "stat": [
+        {
+          "Str": "0",
+          "Dex": "2",
+          "Con": "0",
+          "Int": "0",
+          "Wis": "0",
+          "Cha": "0"
+        }
+      ]
+    },
+    {
+      "name": "Human",
+      "stat": [
+        {
+          "Str": "1",
+          "Dex": "1",
+          "Con": "1",
+          "Int": "1",
+          "Wis": "1",
+          "Cha": "1"
+        }
+      ]
+    }
+  ]
+}
