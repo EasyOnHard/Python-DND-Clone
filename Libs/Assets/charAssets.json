@@ -2,28 +2,33 @@
   "classes": [
     {
       "name": "Barbarian",
+      "hp": "12",
       "starting_inventory": [
         "Axe"
       ]
     },
     {
       "name": "Sorcerer",
+      "hp": "8",
       "starting_inventory": ""
     },
     {
       "name": "Ranger",
+      "hp": "10",
       "starting_inventory": [
         "Longbow"
       ]
     },
     {
       "name": "Rouge",
+      "hp": "8",
       "starting_inventory": [
         "Dagger"
       ]
     },
     {
       "name": "Wizard",
+      "hp": "6",
       "starting_inventory": [
         "Staff"
       ]

@@ -12,13 +12,43 @@ with open(jsonPath, 'r') as file:
 class charGen:
 
     stats = ['Str', 'Dex', 'Con', 'Int', 'Wis', 'Cha']
+    stat_modifiers = {
+        1: -5,
+        2: -4,
+        3: -4,
+        4: -3,
+        5: -3,
+        6: -2,
+        7: -2,
+        8: -1,
+        9: -1,
+        10: 0,
+        11: 0,
+        12: 1,
+        13: 1,
+        14: 2,
+        15: 2,
+        16: 3,
+        17: 3,
+        18: 4,
+        19: 4,
+        20: 5
+    }
 
-    def __init__(self, name, classChosen, raceChosen):
+    def __init__(self, name, classChosen, raceChosen, level=None):
         self.name = name
         self.classChosen = classChosen
         self.raceChosen = raceChosen
-        self.level = 0
+        # self.level = 5
         self.xp = 0
+        self.hp = 0
+        if level == None:
+            self.level = 5
+        else:
+            self.level = int(level)
+    
+    def statModifiers(self):
+        self.statModifiers = {stat: stat_modifiers[value] for stat, value in self.statScores.items()}
 
     def charGen(self):
         self.statScores = {stat: roll(20) for stat in self.stats}
@@ -33,7 +63,8 @@ class charGen:
             print("Invalid Race")
             exit()
         
-        self.inventory = self.classChosenData['starting_inventory'] # Append inventory from charAssets.json
+        for x in range(self.level):                                 # Apply Health
+            self.hp += roll(int(self.classChosenData['hp']))
 
         for stat, boost in self.raceStat.items():                   # Apply racial ability score boosts
             self.statScores[stat] += int(boost)
@@ -42,9 +73,14 @@ class charGen:
             if self.statScores[stat] > 20:
                 self.statScores[stat] = 20
 
+        self.inventory = self.classChosenData['starting_inventory'] # Append inventory from charAssets.json
+
         character = {                                               # Define character
             'class': self.classChosen,
             'race': self.raceChosen,
+            'hp': self.hp,
+            'level': self.level,
+            'xp': self.xp,
             'inventory': self.inventory,
             'stats': self.statScores
         }
@@ -60,4 +96,4 @@ class charGen:
         return f"charGen({self.name}, {self.classChosen}, {self.raceChosen})\n{self.statScores}"
 
     def __str__(self):
-        return f"Name: {self.name}\nClass: {self.classChosen}\nRace: {self.raceChosen}\nLevel: {self.level} ({self.xp})\nItems: {self.inventory} \nStats: {self.statScores}"
+        return f"Name: {self.name}\nClass: {self.classChosen}\nRace: {self.raceChosen}\nHP: {self.hp}\nLevel: {self.level} ({self.xp})\nItems: {self.inventory} \nStats: {self.statScores}"
