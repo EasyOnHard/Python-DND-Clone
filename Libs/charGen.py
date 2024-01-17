@@ -47,11 +47,13 @@ class charGen:
         else:
             self.level = int(level)
     
+    def statsRoll(self):
+        self.statScores = {stat: roll(20) for stat in self.stats}
+ 
     def statModifiers(self):
-        self.statModifiers = {stat: stat_modifiers[value] for stat, value in self.statScores.items()}
+        self.statModifiers = {stat: self.stat_modifiers[value] for stat, value in self.statScores.items()}
 
     def charGen(self):
-        self.statScores = {stat: roll(20) for stat in self.stats}
         self.classChosenData = next((c for c in classes if c['name'] == self.classChosen), None)
         self.raceChosenData = next((r for r in races if r['name'] == self.raceChosen), None)
         self.raceStat = self.raceChosenData['stat'][0]              # Define racial boosts
@@ -63,15 +65,18 @@ class charGen:
             print("Invalid Race")
             exit()
         
-        for x in range(self.level):                                 # Apply Health
-            self.hp += roll(int(self.classChosenData['hp']))
-
+        self.statsRoll()
         for stat, boost in self.raceStat.items():                   # Apply racial ability score boosts
             self.statScores[stat] += int(boost)
-        
         for stat in self.statScores:                                # Cap the ability score at 20
             if self.statScores[stat] > 20:
                 self.statScores[stat] = 20
+        self.statModifiers()
+
+        for x in range(self.level):                                 # Apply Health
+            self.hp += roll(int(self.classChosenData['hp'])) + self.statModifiers['Con']
+            if self.hp < 5:
+                self.hp = 5
 
         self.inventory = self.classChosenData['starting_inventory'] # Append inventory from charAssets.json
 
@@ -82,7 +87,8 @@ class charGen:
             'level': self.level,
             'xp': self.xp,
             'inventory': self.inventory,
-            'stats': self.statScores
+            'stats': self.statScores,
+            'modifiers': self.statModifiers
         }
         return character                                            # Return character
 
@@ -93,7 +99,7 @@ class charGen:
         return self.inventory.remove(item)
     
     def __repr__(self):
-        return f"charGen({self.name}, {self.classChosen}, {self.raceChosen})\n{self.statScores}"
+        return f"charGen({self.name}, {self.classChosen}, {self.raceChosen}, {self.level})\n{self.statScores}"
 
     def __str__(self):
         return f"Name: {self.name}\nClass: {self.classChosen}\nRace: {self.raceChosen}\nHP: {self.hp}\nLevel: {self.level} ({self.xp})\nItems: {self.inventory} \nStats: {self.statScores}"
